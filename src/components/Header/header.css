@@ -7,7 +7,7 @@ header{
     background-color: #000000;
 }
 
-.Logo{
+.logo{
     text-decoration: none;
     font-size: 30px;
     cursor: pointer;
@@ -15,7 +15,7 @@ header{
     font-weight: bold;
 }
 
-.favorritos{
+.favoritos{
     cursor: pointer;
     background-color: #FFF;
     padding: 5px 14px;
