@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import api from '../../services/api'
 import './filme-info.css'
+import {toast} from 'react-toastify'
 
 function Filme() {
     const { id } = useParams()
@@ -24,7 +25,7 @@ function Filme() {
             .catch(() => {
                 console.log("FILME NAO ENCONTRADO!")
                 navigate('/', {replace: true})
-                alert("Ops, filme nao encontrado.")
+                toast.warn("Ops, filme nao encontrado.")
                 }
             )
         }
@@ -41,13 +42,13 @@ function Filme() {
     let filmesSalvos = JSON.parse(minhaLista) || []
     const hasFilme = filmesSalvos.some((filmeSalvo) => filmeSalvo.id === filme.id)
     if(hasFilme){
-        alert("Este filme ja esta na sua lista.")
+        toast.warn("Este filme ja esta na sua lista.")
         return
     }
     
     filmesSalvos.push(filme)
     localStorage.setItem("@primeflix",JSON.stringify(filmesSalvos))
-    alert("Filme salvo com sucesso!")
+    toast.success("Filme salvo com sucesso!")
     
    }
 
