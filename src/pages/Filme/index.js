@@ -1,36 +1,40 @@
-import { useParams } from 'react-router-dom'
-import { useState, useEffect} from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import api from '../../services/api'
 import './filme-info.css'
 
 function Filme() {
-   const { id } = useParams()
-   const [filme, setFilme] = useState({})
+    const { id } = useParams()
+    const [filme, setFilme] = useState({})
     const [loading, setLoading] = useState(true)
+    const navigate = useNavigate()
 
 
-   async function loadFilme() {
-        await api.get(`movie/${id}`, {
-            params:{
-                api_key: "eef6b66e285657e40eecbdaa6cc04f9d",
-                language: "pt-BR"
-            }
-        }).then((response) => {
-            setFilme(response.data)
-            setLoading(false)
-        } )
-        .catch(
-            console.log("FILME NAO ENCONTRADO!")
-        )
-   }
+    useEffect(() => {
+        async function loadFilme() {
+            await api.get(`movie/${id}`, {
+                params:{
+                    api_key: "eef6b66e285657e40eecbdaa6cc04f9d",
+                    language: "pt-BR"
+                }
+            }).then((response) => {
+                setFilme(response.data)
+                setLoading(false)
+            } )
+            .catch(() => {
+                console.log("FILME NAO ENCONTRADO!")
+                navigate('/', {replace: true})
+                alert("Ops, filme nao encontrado.")
+                }
+            )
+        }
 
-   useEffect(() => {
-       loadFilme();
+        loadFilme()
 
        return () => {
         console.log("COMPONENTE DESMONTADO!")
        }
-   })
+   },[id, navigate])
 
    if(loading){
         return(
@@ -49,7 +53,7 @@ function Filme() {
 
             <div className='area-buttons'>
                 <button>Salvar</button>
-                <a href="#" >Trailer</a>
+                <a target="_blank" rel="external noreferrer" href={`https://www.youtube.com/results?search_query=${filme.title} trailer`} >Trailer</a>
             </div>
         </div>
     )
