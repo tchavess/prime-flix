@@ -9,7 +9,7 @@ export default function Favoritos(){
         let filmesSalvos = minhaLista || []
         setFilmes(JSON.parse(filmesSalvos))
 
-    })
+    },[])
 
     function excluiFilmeDaLista(id ){
         const filmeFiltro = filmes.filter( (filme) => filme.id !== id ) 
